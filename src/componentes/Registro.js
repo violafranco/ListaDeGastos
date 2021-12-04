@@ -6,9 +6,11 @@ import {Formulario, Input, ContenedorBoton} from './../elementos/ElementosDeForm
 import {ReactComponent as loginSvg} from './../images/login.svg';
 import styled from 'styled-components';
 import Alerta from '../elementos/Alerta';
+import { auth } from '../firebase/firebaseConfig';
+import { useNavigate } from 'react-router';
 
 const Registro = () => {
-
+    const navigate = useNavigate();
     const [correo, setCorreo] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
@@ -32,29 +34,12 @@ const Registro = () => {
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setEstadoAlerta(false);
+        setEstadoAlerta(true);
         setAlerta({});
 
-        //Comprobamos si el correo es valido
-        const expresionRegular = / [a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+ /;
-        if( !expresionRegular.test(correo)){
-            setEstadoAlerta(true);
-            setAlerta({
-                tipo: 'error',
-                mensaje: 'Por favor ingrese un correo electrónico válido'
-            })
-            return;
-        }
-        if(correo === '' || password === '' || password2 === ''){
-            setEstadoAlerta(true);
-            setAlerta({
-                tipo: 'error',
-                mensaje: 'Completa todos los datos para crear una cuenta'
-            })
-            return;
-        }
+        //Comprobamos si las contraseñas coinciden
         if(password !== password2) {
             setEstadoAlerta(true);
             setAlerta({
@@ -64,30 +49,32 @@ const Registro = () => {
             return;
         }
 
-        /*try {
+        try {
             await auth.createUserWithEmailAndPassword(correo, password);
-            history.pushState('/');
+            navigate('/')
         } catch (error){
             setEstadoAlerta(true);
 
             let mensaje;
             switch(error.code){
                 case 'auth/invalid-password':
-                    mensaje = 'Las contraseñas tienen que tener 6 caracteres'
+                    mensaje = 'Las contraseña tiene que tener 6 caracteres'
                     break;
                 case 'auth/email-already-in-use':
                     mensaje = 'Ya existe una cuenta con este correo'
+                    setTimeout(() => {
+                        navigate('/iniciar-sesion')
+                    }, 2000)
                     break;
                 case 'auth/invalid-email':
                     mensaje = 'El correo electrónico es invalido'
                     break;
                 default:
-                    mensaje = 'Hubo un error al intentar crear la cuenta'
+                    mensaje = 'La contraseña debe tener al menos 6 caracteres'
                     break;
             }
             setAlerta({tipo: 'error', mensaje: mensaje})
-        
-        }*/
+        }
 
     }
 
