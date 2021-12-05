@@ -5,8 +5,8 @@ const Boton = styled(Link)`
     /*Si las props del btn tiene el valor PRIMARIo, usamos color primario, sino el #000*/
     background: ${(props) => props.primario ? '#5B69E2' : '#000'};
     /*Si btn tiene icono, entonces mide 15.62(es decir que lo hacemos más largo), sino es auto el ancho*/
-    width: ${(props) => props.conIcono ? '15.62rem' : 'auto'}; /* 250px */
-    margin-left: 1.2rem;
+    width: ${(props) => props.conIcono ? '10rem' : 'auto'}; /* 250px */
+    margin-left: 1rem;
     border: none;
     border-radius: 0.6rem;
     color: #fff;
@@ -18,9 +18,10 @@ const Boton = styled(Link)`
     cursor: pointer;
     text-decoration: none;
     display: inline-flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     outline: none;
+ 
  
     svg {
         /*Si el svg tiene la prop iconoGrande, le damos 100% de altura, sino lo hacemos más pequeño */
