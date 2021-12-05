@@ -24,7 +24,7 @@ const Boton = styled(Link)`
  
     svg {
         /*Si el svg tiene la prop iconoGrande, le damos 100% de altura, sino lo hacemos más pequeño */
-        height: ${(props) => props.iconoGrande ? '100%' : '0.75rem;'};  /* 12px */
+        height: ${(props) => props.iconoGrande ? '1.2em' : '0.75rem;'};  /* 12px */
         fill: white;
     }
 `; 

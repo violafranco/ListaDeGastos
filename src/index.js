@@ -12,27 +12,59 @@ import Registro from './componentes/Registro';
 import FondoPuntos from './elementos/Fondo';
 import {Helmet} from "react-helmet";
 import favicon from './images/favicon.ico' ;
+import {AuthProvider} from './contextos/AuthContext';
+import RutaPrivada from './componentes/RutaPrivada'
 
 ReactDOM.render(
   <>
     <Helmet>
       <link rel="shortcut icon" href={favicon} type="icon" />
     </Helmet>
-    <BrowserRouter>
-      <React.StrictMode>
-        <Contenedor>
-          <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/iniciar-sesion" element={< IniciarSesion/>} />
-            <Route path="/crear-cuenta" element={< Registro />} />
-            <Route path="/categorias" element={< GastosCategoria/>} />
-            <Route path="/lista" element={< ListadeGastos/>} />
-            <Route path="/editar/:id" element={< EditarGastos/>} />
-          </Routes>
-        </Contenedor>
-      </React.StrictMode>
-  </BrowserRouter>
-  <FondoPuntos />
+
+    <AuthProvider>
+        <BrowserRouter>
+          <React.StrictMode>
+            <Contenedor>
+              <Routes>
+                <Route path="/iniciar-sesion" element={< IniciarSesion/>} />
+                <Route path="/crear-cuenta" element={< Registro />} />
+
+                <Route
+                  path="/"
+                  element={
+                    <RutaPrivada>
+                       <App />
+                    </RutaPrivada>
+                }/>
+                <Route
+                  path="/categorias"
+                  element={
+                    <RutaPrivada>
+                       <GastosCategoria />
+                    </RutaPrivada>
+                }/>
+                <Route
+                  path="/lista"
+                  element={
+                    <RutaPrivada>
+                       <ListadeGastos />
+                    </RutaPrivada>
+                }/>
+                <Route
+                  path="/editar/:id"
+                  element={
+                    <RutaPrivada>
+                       <EditarGastos />
+                    </RutaPrivada>
+                }/>
+
+              </Routes>
+            </Contenedor>
+          </React.StrictMode>
+        </BrowserRouter>
+    </AuthProvider>
+
+    <FondoPuntos />
   </>
 ,
   document.getElementById('root')

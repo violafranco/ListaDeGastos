@@ -2,8 +2,10 @@ import React from 'react';
 import {Header, Titulo} from './../elementos/Header.js';
 import { Helmet } from 'react-helmet';
 import BtnRegresar from './../elementos/BtnRegresar.js';
+import { useAuth } from '../contextos/AuthContext.js';
 
 const ListadeGastos = () => {
+
     return ( 
         <>
             <Helmet>

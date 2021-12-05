@@ -36,7 +36,7 @@ const Registro = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setEstadoAlerta(true);
+        setEstadoAlerta(false);
         setAlerta({});
 
         //Comprobamos si las contraseñas coinciden
