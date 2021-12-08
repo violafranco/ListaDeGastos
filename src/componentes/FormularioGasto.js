@@ -4,7 +4,7 @@ import Boton from '../elementos/Boton';
 import {ReactComponent as IconPLus} from './../images/plus.svg';
 import SelectCategorias from '../elementos/SelectCategoria';
 import DatePicker from '../elementos/DatePicker';
-import fromUnixTime from 'date-fns/fromUnixTime';
+//import fromUnixTime from 'date-fns/fromUnixTime';
 import getUnixTime from 'date-fns/getUnixTime';
 import agregarGasto from '../firebase/agregarGasto';
 import {useAuth} from './../contextos/AuthContext';
