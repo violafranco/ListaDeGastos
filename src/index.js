@@ -13,7 +13,8 @@ import FondoPuntos from './elementos/Fondo';
 import {Helmet} from "react-helmet";
 import favicon from './images/favicon.ico' ;
 import {AuthProvider} from './contextos/AuthContext';
-import RutaPrivada from './componentes/RutaPrivada'
+import RutaPrivada from './componentes/RutaPrivada';
+import {TotalGastadoProvider} from './contextos/TotalGastadoContext';
 
 ReactDOM.render(
   <>
@@ -22,6 +23,7 @@ ReactDOM.render(
     </Helmet>
 
     <AuthProvider>
+      <TotalGastadoProvider>
         <BrowserRouter>
           <React.StrictMode>
             <Contenedor>
@@ -62,6 +64,7 @@ ReactDOM.render(
             </Contenedor>
           </React.StrictMode>
         </BrowserRouter>
+      </TotalGastadoProvider>
     </AuthProvider>
 
     <FondoPuntos />

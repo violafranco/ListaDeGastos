@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import Boton from './../elementos/Boton';
 import { format, fromUnixTime } from 'date-fns';
 import { es } from 'date-fns/locale';
+import borrarGasto from '../firebase/borrarGasto.js';
 
 const Opcion = styled.div`
     svg {
@@ -86,7 +87,7 @@ const ListadeGastos = () => {
                                     <BotonAccion as={Link} to={`/editar/${gasto.id}`} >
                                         <IconEditar/>
                                     </BotonAccion>
-                                    <BotonAccion>
+                                    <BotonAccion onClick={() => borrarGasto(gasto.id)}>
                                         <IconBorrar/>
                                     </BotonAccion>
                                 </ContenedorBotones>
@@ -102,7 +103,7 @@ const ListadeGastos = () => {
                 </ContenedorBotonCentral>
                 }
 
-                {gastos.length == 0 &&
+                {gastos.length === 0 &&
                     <ContenedorSubtitulo>
                         <Subtitulo>No hay gastos por mostrar</Subtitulo>
                         <Boton as={Link} to='/'>Agregar Gasto</Boton>

@@ -1,16 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {ContenedorFiltros, Formulario, Input, InputGrande, ContenedorBoton} from './../elementos/ElementosDeFormularios';
 import Boton from '../elementos/Boton';
 import {ReactComponent as IconPLus} from './../images/plus.svg';
 import SelectCategorias from '../elementos/SelectCategoria';
 import DatePicker from '../elementos/DatePicker';
-//import fromUnixTime from 'date-fns/fromUnixTime';
+import fromUnixTime from 'date-fns/fromUnixTime';
 import getUnixTime from 'date-fns/getUnixTime';
 import agregarGasto from '../firebase/agregarGasto';
 import {useAuth} from './../contextos/AuthContext';
 import Alerta from './../elementos/Alerta';
+import { useNavigate } from 'react-router-dom';
+import editarGasto from '../firebase/editargasto';
 
-const FormularioGasto = () => {
+const FormularioGasto = ({gasto}) => {
     //Estados para pasarle a los inputs y manipularlos
     const [inputDescripcion, setInputDescripcion] = useState();
     const [inputCantidad, setinputCantidad] = useState();
@@ -23,6 +25,23 @@ const FormularioGasto = () => {
 
     //Creamos el acceso a los daots del usuario
     const {usuario} = useAuth();
+
+    const navigate = useNavigate();
+
+    //Comprobamos si tenemos algun gasto agregado
+    useEffect(() => {
+        if(gasto){
+            //Comprobamos si el gasto es del usuario actual, entonces usamos el uid
+            if(gasto.data().uidUsuario === usuario.uid){
+                setCategoria(gasto.data().categoria)
+                setFecha(fromUnixTime(gasto.data().fecha))
+                setInputDescripcion(gasto.data().inputDescripcion)
+                setinputCantidad(gasto.data().inputCantidad)
+            } else {
+                navigate('/lista');
+            }
+        }
+    }, [gasto, usuario, navigate]);
 
     //Estados de la alerta
     const [estadoalerta, setEstadoAlerta] = useState(false);
@@ -42,27 +61,40 @@ const FormularioGasto = () => {
         //Transformamos la cantidad en numero y le pasamos 2 decimales
         let monto = parseFloat(inputCantidad).toFixed(2);
 
-        //Comprobamos que haya descripción y valor
-        agregarGasto({
-            categoria: categoria,
-            descripcion: inputDescripcion,
-            cantidad: monto,
-            fecha: getUnixTime(fecha),
-            uidUsuario: usuario.uid
-        })
-        .then(() => {
-            setCategoria('hogar');
-            setInputDescripcion('');
-            setinputCantidad('');
-            setFecha(new Date());
+        if(gasto){
+            editarGasto({
+                id: gasto.id,
+                categoria: categoria,
+                descripcion: inputDescripcion,
+                cantidad: monto,
+                fecha: getUnixTime(fecha)
+            }).then(() => {
+                navigate('/lista');
+            });
+        } else { 
+            //Comprobamos que haya descripción y valor
+            agregarGasto({
+                categoria: categoria,
+                descripcion: inputDescripcion,
+                cantidad: monto,
+                fecha: getUnixTime(fecha),
+                uidUsuario: usuario.uid
+            })
+            .then(() => {
+                setCategoria('hogar');
+                setInputDescripcion('');
+                setinputCantidad('');
+                setFecha(new Date());
 
-            setEstadoAlerta(true)
-            setAlerta({tipo: 'exito', mensaje: 'El gasto se agregó correctamente'})
-        })
-        .catch((error) => {
-            setEstadoAlerta(true)
-            setAlerta({tipo: 'error', mensaje: 'Hubo un probelma al intentar agregar el gasto, intenta nuevamente'})
-        })
+                setEstadoAlerta(true)
+                setAlerta({tipo: 'exito', mensaje: 'El gasto se agregó correctamente'})
+            })
+            .catch((error) => {
+                setEstadoAlerta(true)
+                setAlerta({tipo: 'error', mensaje: 'Hubo un probelma al intentar agregar el gasto, intenta nuevamente'})
+            })
+        }
+
     }
 
     return ( 
@@ -96,7 +128,8 @@ const FormularioGasto = () => {
             </div>
 
             <ContenedorBoton>
-                <Boton as='button' primario conIcono type='submit'>Agregar gasto <IconPLus /></Boton>
+                <Boton as='button' primario conIcono type='submit'>
+                {gasto ? 'Editar Gasto' : 'Agregar Gasto'}<IconPLus /></Boton>
             </ContenedorBoton>
 
             <Alerta 

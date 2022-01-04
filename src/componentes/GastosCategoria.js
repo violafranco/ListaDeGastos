@@ -3,8 +3,12 @@ import {Header, Titulo} from './../elementos/Header.js';
 import { Helmet } from 'react-helmet';
 import BtnRegresar from './../elementos/BtnRegresar.js';
 import BarraTotalGastado from '../elementos/BarraTotalGastado.js';
+import useObtenerGastoMes from '../hooks/useObtenerGastoMes.js';
 
 const GastosCategoria = () => {
+
+    useObtenerGastoMes();
+
     return ( 
         <>
             <Helmet>

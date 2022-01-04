@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import temas from '../temas';
 import convertirAMoneda from './../funciones/convertirAMoneda'
+import { useTotalDelMes } from '../contextos/TotalGastadoContext';
 
 const BarraTotal = styled.div`
     background: ${temas.verde};
@@ -22,10 +23,13 @@ const BarraTotal = styled.div`
 `;
 
 const BarraTotalGastado = () => {
+
+    const {total} = useTotalDelMes();
+
     return ( 
         <BarraTotal>
-            <p>Total gastado en el mes: </p>
-            <p>{convertirAMoneda(0.00)}</p>
+            <p>Total gastado en el meeeeees: </p>
+            <p>{convertirAMoneda(total)}</p>
         </BarraTotal>
      );
 }
