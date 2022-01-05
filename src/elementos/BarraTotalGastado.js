@@ -28,7 +28,7 @@ const BarraTotalGastado = () => {
 
     return ( 
         <BarraTotal>
-            <p>Total gastado en el meeeeees: </p>
+            <p>Total gastado en el mes: </p>
             <p>{convertirAMoneda(total)}</p>
         </BarraTotal>
      );

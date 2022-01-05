@@ -3,11 +3,13 @@ import {Header, Titulo} from './../elementos/Header.js';
 import { Helmet } from 'react-helmet';
 import BtnRegresar from './../elementos/BtnRegresar.js';
 import BarraTotalGastado from '../elementos/BarraTotalGastado.js';
-import useObtenerGastoMes from '../hooks/useObtenerGastoMes.js';
+import useObtenerGastoDelMesPorCategoria from '../hooks/useObtenerGastoDelMesPorCategoria.js';
+import {ListaDeCategorias, ElementoListaCategorias, Categoria, Valor} from './../elementos/ElementosLista';
+import formatearCantidad from '../funciones/convertirAMoneda.js';
 
 const GastosCategoria = () => {
 
-    useObtenerGastoMes();
+    let gastosPorCategoria = useObtenerGastoDelMesPorCategoria();
 
     return ( 
         <>
@@ -19,6 +21,17 @@ const GastosCategoria = () => {
                 <BtnRegresar />
                 <Titulo>Gastos por categoria</Titulo>
             </Header>
+
+            <ListaDeCategorias>
+                {gastosPorCategoria.map((e, index) => {
+                    return(
+                        <ElementoListaCategorias key={index}>
+                            <Categoria>{e.categoria}</Categoria>
+                            <Valor>{formatearCantidad(e.cantidad)}</Valor>
+                        </ElementoListaCategorias>
+                    );
+                })}
+            </ListaDeCategorias>
 
             <BarraTotalGastado />
         </>

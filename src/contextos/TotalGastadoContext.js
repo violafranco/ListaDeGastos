@@ -17,7 +17,7 @@ const TotalGastadoProvider = ({children}) => {
         })
         setTotal(acumulado);
     }, [gastos]);
-
+ 
     return(
         <TotalGastadoContext.Provider value={{total: total}} >
             {children}
