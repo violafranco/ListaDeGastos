@@ -28,8 +28,8 @@ ReactDOM.render(
           <React.StrictMode>
             <Contenedor>
               <Routes>
-                <Route path="/iniciar-sesion" element={< IniciarSesion/>} />
-                <Route path="/crear-cuenta" element={< Registro />} />
+                <Route path="/iniciar-sesion" element={<IniciarSesion/>} />
+                <Route path="/crear-cuenta" element={<Registro />} />
 
                 <Route
                   path="/"
