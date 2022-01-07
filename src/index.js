@@ -27,7 +27,7 @@ ReactDOM.render(
         <BrowserRouter>
           <React.StrictMode>
             <Contenedor>
-              <Routes basename={public.env.PUBLIC_URL}>
+              <Routes>
                 <Route path="/iniciar-sesion" element={< IniciarSesion/>} />
                 <Route path="/crear-cuenta" element={< Registro />} />
 
